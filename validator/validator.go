@@ -21,6 +21,14 @@ func InitValidator() {
 	uni := ut.New(eng, eng)
 	translator, _ = uni.GetTranslator("en")
 
+	validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
+		if labelTag := fld.Tag.Get("label"); labelTag != "" {
+			return labelTag
+		}
+
+		return fld.Name
+	})
+
 	_ = en_translations.RegisterDefaultTranslations(validate, translator)
 }
 
