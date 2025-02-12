@@ -32,22 +32,7 @@ func InitValidator() {
 	_ = en_translations.RegisterDefaultTranslations(validate, translator)
 }
 
-func ValidateStruct(obj interface{}) map[string]string {
-	err := validate.Struct(obj)
-	if err == nil {
-		return nil
-	}
-
-	errorsMap := make(map[string]string)
-	for _, e := range err.(validator.ValidationErrors) {
-		jsonKey := getJSONTag(obj, e.StructField())
-		errorsMap[jsonKey] = e.Translate(translator)
-	}
-
-	return errorsMap
-}
-
-func getJSONTag(obj interface{}, fieldName string) string {
+func getJsonTag(obj interface{}, fieldName string) string {
 	t := reflect.TypeOf(obj)
 
 	if t.Kind() == reflect.Ptr {
@@ -65,4 +50,19 @@ func getJSONTag(obj interface{}, fieldName string) string {
 	}
 
 	return jsonTag
+}
+
+func ValidateStruct(obj interface{}) map[string]string {
+	err := validate.Struct(obj)
+	if err == nil {
+		return nil
+	}
+
+	errorsMap := make(map[string]string)
+	for _, e := range err.(validator.ValidationErrors) {
+		jsonKey := getJsonTag(obj, e.StructField())
+		errorsMap[jsonKey] = e.Translate(translator)
+	}
+
+	return errorsMap
 }
