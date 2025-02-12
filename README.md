@@ -7,7 +7,7 @@ Implementasi custom validation di Fiber menggunakan `go-playground/validator` de
 - Terjemahan error otomatis menggunakan `universal-translator` dan `locales`  
 - Mapping error menggunakan tag `json` dari struct
 
-## 🚀 Cara Menjalankan  
+## Cara Menjalankan  
 1. Clone repo ini  
 2. Install dependensi:  
    ```sh
